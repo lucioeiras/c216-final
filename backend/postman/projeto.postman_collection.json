@@ -20,6 +20,109 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Equipes",
+      "item": [
+        {
+          "name": "GET /equipes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/equipes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /equipes/:id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/equipes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /equipes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Nova Equipe Teste\"}"
+            },
+            "url": {
+              "raw": "{{base_url}}/equipes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT /equipes/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Equipe Atualizada\"}"
+            },
+            "url": {
+              "raw": "{{base_url}}/equipes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE /equipes/:id",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/equipes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
