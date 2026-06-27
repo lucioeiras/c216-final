@@ -123,6 +123,109 @@
           }
         }
       ]
+    },
+    {
+      "name": "Jogadores",
+      "item": [
+        {
+          "name": "GET /jogadores",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/jogadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jogadores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /jogadores/:id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/jogadores/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jogadores",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /jogadores",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Novo Jogador\",\"equipeId\":1}"
+            },
+            "url": {
+              "raw": "{{base_url}}/jogadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jogadores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT /jogadores/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nome\":\"Jogador Atualizado\",\"equipeId\":2}"
+            },
+            "url": {
+              "raw": "{{base_url}}/jogadores/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jogadores",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE /jogadores/:id",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/jogadores/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jogadores",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
