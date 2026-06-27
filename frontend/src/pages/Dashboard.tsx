@@ -1,16 +1,25 @@
 import { useNavigate } from 'react-router-dom';
-import { useEquipes, usePartidas } from '../hooks/useDashboardData';
+import { useEquipes, usePartidas, useDeletePartida } from '../hooks/useDashboardData';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export function Dashboard() {
   const navigate = useNavigate();
   const { data: equipes, isLoading: isLoadingEquipes } = useEquipes();
   const { data: partidas, isLoading: isLoadingPartidas } = usePartidas();
+  const deletePartida = useDeletePartida();
 
   const isLoading = isLoadingEquipes || isLoadingPartidas;
+
+  const handleDeletePartida = (id: number) => {
+    if (confirm('Tem certeza que deseja cancelar esta partida?')) {
+      deletePartida.mutate(id);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 font-sans">
@@ -58,7 +67,7 @@ export function Dashboard() {
                 {equipes?.map((equipe) => (
                   <Card 
                     key={equipe.id} 
-                    className="hover:bg-muted/50 transition-colors cursor-pointer group"
+                    className="hover:bg-muted/50 transition-colors cursor-pointer group border-border/50 shadow-sm"
                     onClick={() => navigate(`/equipe/${equipe.id}`)}
                   >
                     <CardContent className="flex flex-col items-center justify-center p-6 text-center gap-4">
@@ -82,48 +91,70 @@ export function Dashboard() {
                   <h2 className="text-2xl font-semibold tracking-tight">Próximos Jogos</h2>
                   <p className="text-sm text-muted-foreground">Calendário de confrontos da fase de grupos</p>
                 </div>
-                <Badge variant="secondary" className="text-sm px-3 py-1">
-                  {partidas?.length || 0}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-sm px-3 py-1">
+                    {partidas?.length || 0}
+                  </Badge>
+                  <Button size="sm" onClick={() => navigate('/partida/nova')}>
+                    + Nova
+                  </Button>
+                </div>
               </div>
 
-              <ScrollArea className="h-[70vh] rounded-md border p-4 bg-card">
+              <ScrollArea className="h-[70vh] rounded-md border p-4 bg-card shadow-sm">
                 <div className="space-y-4">
-                  {partidas?.map((partida) => {
-                    const date = new Date(partida.data);
-                    const formattedDate = date.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
-                    const formattedTime = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    
-                    const teamA = partida.equipes[0]?.equipe.nome || 'TBD';
-                    const teamB = partida.equipes[1]?.equipe.nome || 'TBD';
+                  {partidas?.length === 0 ? (
+                    <div className="text-center py-12 text-muted-foreground border border-dashed rounded-lg">
+                      Nenhuma partida agendada.
+                    </div>
+                  ) : (
+                    partidas?.map((partida) => {
+                      const date = new Date(partida.data);
+                      const formattedDate = date.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+                      const formattedTime = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                      
+                      const teamA = partida.equipes[0]?.equipe.nome || 'TBD';
+                      const teamB = partida.equipes[1]?.equipe.nome || 'TBD';
 
-                    return (
-                      <Card key={partida.id} className="overflow-hidden">
-                        <CardHeader className="bg-muted/30 pb-3 pt-4 border-b">
-                          <div className="flex items-center justify-between">
-                            <Badge variant="outline" className="text-xs font-semibold bg-background">Fase de Grupos</Badge>
-                            <div className="text-right">
-                              <p className="text-sm font-medium capitalize">{formattedDate}</p>
-                              <p className="text-xs text-muted-foreground">{formattedTime}</p>
+                      return (
+                        <Card key={partida.id} className="p-0 overflow-hidden border shadow-sm transition-colors hover:border-primary/50">
+                          <CardHeader className="bg-muted/40 pb-3 pt-4 border-b">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <Badge variant="outline" className="text-xs font-semibold bg-background">Fase de Grupos</Badge>
+                                {/* Actions */}
+                                <div className="flex items-center gap-1 opacity-60 hover:opacity-100 transition-opacity">
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => navigate(`/partida/editar/${partida.id}`)}>
+                                    <Pencil className="h-3.5 w-3.5 text-blue-500" />
+                                  </Button>
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleDeletePartida(partida.id)}>
+                                    <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-sm font-medium capitalize">{formattedDate}</p>
+                                <p className="text-xs text-muted-foreground">{formattedTime}</p>
+                              </div>
                             </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="pt-6 pb-6">
-                          <div className="flex items-center justify-between">
-                            <div className="flex-1 text-center">
-                              <p className="font-bold text-lg">{teamA}</p>
+                          </CardHeader>
+                          <CardContent className="pt-6 pb-6 bg-card/50">
+                            <div className="flex items-center justify-between">
+                              <div className="flex-1 text-center">
+                                <p className="font-bold text-lg">{teamA}</p>
+                              </div>
+                              <div className="px-4">
+                                <span className="text-muted-foreground font-bold text-sm bg-muted rounded-full px-3 py-1">VS</span>
+                              </div>
+                              <div className="flex-1 text-center">
+                                <p className="font-bold text-lg">{teamB}</p>
+                              </div>
                             </div>
-                            <div className="px-4">
-                              <span className="text-muted-foreground font-bold text-sm bg-muted rounded-full px-3 py-1">VS</span>
-                            </div>
-                            <div className="flex-1 text-center">
-                              <p className="font-bold text-lg">{teamB}</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                          </CardContent>
+                        </Card>
+                      );
+                    })
+                  )}
                 </div>
               </ScrollArea>
             </section>
