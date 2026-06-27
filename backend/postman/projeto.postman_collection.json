@@ -226,6 +226,109 @@
           }
         }
       ]
+    },
+    {
+      "name": "Partidas",
+      "item": [
+        {
+          "name": "GET /partidas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/partidas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /partidas/:id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/partidas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /partidas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"data\":\"2026-06-27T20:00:00Z\",\"equipeIds\":[1,2]}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partidas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT /partidas/:id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"data\":\"2026-06-28T20:00:00Z\",\"equipeIds\":[3,4]}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partidas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE /partidas/:id",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/partidas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }
