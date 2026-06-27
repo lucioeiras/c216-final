@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Equipe {
+  id        Int              @id @default(autoincrement())
+  nome      String
+  jogadores Jogador[]
+  partidas  Equipe_Partida[]
+}
+
+model Jogador {
+  id       Int    @id @default(autoincrement())
+  nome     String
+  equipeId Int
+  equipe   Equipe @relation(fields: [equipeId], references: [id])
+}
+
+model Partida {
+  id      Int              @id @default(autoincrement())
+  data    DateTime         @default(now())
+  equipes Equipe_Partida[]
+}
+
+model Equipe_Partida {
+  equipeId  Int
+  partidaId Int
+  equipe    Equipe  @relation(fields: [equipeId], references: [id])
+  partida   Partida @relation(fields: [partidaId], references: [id])
+
+  @@id([equipeId, partidaId])
+}
